@@ -14,11 +14,30 @@ struct phone{
 	phone* next;
 } *head;
 
+bool verifyCode(int cod){
+	phone* i = head;
+	
+    while (i != nullptr) {
+        if (i->code == cod) {
+            return true; // duplicate found
+        }
+        i = i->next;
+    }
+    
+	return false;
+}
+
 void addPhone(){
 	phone* newPhone = new phone; 
 	
 	std::cout << "Enter phone code: \n";
     std::cin >> newPhone->code;
+    
+    if (verifyCode(newPhone->code) == true){
+    	std::cout << "Duplicate code, please try again.\n";
+    	delete newPhone; // avoid memory leak
+    	return;
+	}
     
     newPhone->next = head;
     head = newPhone;
@@ -37,7 +56,6 @@ void printInventory(){
 			i = i->next;
 		}
 	}
-
 }
 
 int main() {
@@ -66,8 +84,8 @@ int main() {
 				std::cout << "Closing app...\n";
 				break;
 			default:
-	            std::cout << "Invalid option!\n";
-	            break;
+				std::cout << "Invalid option!\n";
+				break;
 		}
 	}while (opt != 3);
 	
