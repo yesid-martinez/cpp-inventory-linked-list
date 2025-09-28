@@ -5,12 +5,12 @@ using namespace std;
 struct phone{
 	int code;
 	string brand;
-	string type;
+	string model;
 	short ram;
-	short dd;
-	short units;
+	short storage;
+	short stock;
+	int phonePrice;
 	int sellValue;
-	int buyValue;
 	phone* next;
 } *head;
 
