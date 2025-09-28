@@ -79,9 +79,48 @@ void printInventory(){
 	}else{
 		while(i != nullptr){
 			std::cout << " - Phone code: " << i->code << "\n";
+			std::cout << " - Brand: " << i->brand << "\n";
+			std::cout << " - Model: " << i->model << "\n";
+			std::cout << " - Available: " << i->stock << "\n";
 			i = i->next;
 		}
 	}
+}
+
+void buyPhone() {
+    short cod = 0, quant = 0;
+    
+    phone* i = head;
+    
+    if (i == nullptr) {
+        std::cout << "- There are no available phones at this moment.\n";
+    } else {
+        std::cout << "Enter the code of the phone you want to buy: \n";
+        std::cin >> cod;
+        
+        while (i != nullptr) {
+            if (i->code == cod) {
+                std::cout << "Enter purchase quantity: \n";
+                std::cin >> quant;
+                
+                if (quant <= 0) {
+                    std::cout << "Please enter a quantity of at least one (1).\n";
+                } else {
+                    i->stock += quant; 
+                    std::cout << "- " << quant << " phones added to stock successfully!\n";
+                    std::cout << "- Thank you for your purchase.\n";
+                }
+                break; // phone found, exit the loop
+            }
+            
+            // Move to next node if code does not match
+            i = i->next;
+        }
+        
+        if (i == nullptr) {
+            std::cout << "Phone code not found! Please try again.\n";
+        }
+    }
 }
 
 int main() {
@@ -94,8 +133,9 @@ int main() {
 		std::cout << "           --- Menu inventory ---\n";
 		std::cout << "Select a option:\n";
 		std::cout << "1. Add phone.\n";
-		std::cout << "2. View available phones.\n";
-		std::cout << "3. Exit.\n";	
+		std::cout << "2. View inventory.\n";
+		std::cout << "3. Buy phone(s).\n";	
+		std::cout << "4. Exit.\n";	
 		
 		std::cin >> opt;
 		
@@ -107,13 +147,16 @@ int main() {
 				printInventory();
 				break;
 			case 3:
+				buyPhone();
+				break;
+			case 4:
 				std::cout << "Closing app...\n";
 				break;
 			default:
 				std::cout << "Invalid option!\n";
 				break;
 		}
-	}while (opt != 3);
+	}while (opt != 4);
 	
 	return 0;
 }
