@@ -30,7 +30,7 @@ bool verifyCode(int cod){
 void addPhone(){
 	phone* newPhone = new phone; 
 	
-	std::cout << "Enter phone code: \n";
+	std::cout << "Enter code of the new phone: \n";
     std::cin >> newPhone->code;
     
     if (verifyCode(newPhone->code) == true){
@@ -38,6 +38,32 @@ void addPhone(){
     	delete newPhone; // avoid memory leak
     	return;
 	}
+	
+	std::cout << "Enter brand: ";
+    std::cin >> newPhone->brand;
+    
+    std::cout << "Enter model: ";
+    std::cin.ignore(); // Clean buffer
+    std::getline(std::cin, newPhone->model);
+    
+    std::cout << "Enter RAM: ";
+    std::cin >> newPhone->ram;
+    
+    std::cout << "Enter storage: ";
+    std::cin >> newPhone->storage;
+    
+	// std::cout << "Enter the stock quantity: ";
+	// std::cin >> newPhone->stock;
+	
+    // We start with 0 units by default.
+    // This way, the inventory can begin empty (no phones in stock).
+    newPhone->stock = 0; 
+    
+    std::cout << "Enter phone price: ";
+    std::cin >> newPhone->phonePrice;
+    
+    std::cout << "Enter selling price: ";
+	std::cin >> newPhone->sellValue;
     
     newPhone->next = head;
     head = newPhone;
