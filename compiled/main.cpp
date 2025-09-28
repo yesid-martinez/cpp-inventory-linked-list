@@ -71,19 +71,27 @@ void addPhone(){
     std::cout << "Phone added successfully!\n";
 }
 
-void printInventory(){
+void printInventory(long balance){
 	phone* i = head;
 	
 	if(i == nullptr){
 		std::cout << " - There is no available phones at this moment.\n";
+		std::cout << " \n";
+		std::cout << " - Balance: " << balance << "\n";			
 	}else{
+		std::cout << "| ----------- Inventory ----------- |\n";
 		while(i != nullptr){
+			std::cout << " \n";
 			std::cout << " - Phone code: " << i->code << "\n";
 			std::cout << " - Brand: " << i->brand << "\n";
 			std::cout << " - Model: " << i->model << "\n";
 			std::cout << " - Available: " << i->stock << "\n";
+			std::cout << " \n";
+			std::cout << "| -------------------------------- |";
+			std::cout << " \n";		
 			i = i->next;
 		}
+		std::cout << " - Balance: " << balance << "\n";
 	}
 }
 
@@ -128,6 +136,7 @@ int main() {
 	head = nullptr;
 	
 	short opt = 0;
+	long balance = 10000000;
 	
 	do{
 		std::cout << "           --- Menu inventory ---\n";
@@ -144,7 +153,7 @@ int main() {
 				addPhone();
 				break;
 			case 2:
-				printInventory();
+				printInventory(balance);
 				break;
 			case 3:
 				buyPhone();
