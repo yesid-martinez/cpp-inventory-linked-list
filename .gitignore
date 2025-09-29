@@ -1,4 +1,5 @@
 inventory.dev
+inventory.layout
 Makefile.win
 main.o
 inventory.exe
