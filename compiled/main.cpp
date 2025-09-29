@@ -131,6 +131,45 @@ void buyPhone() {
     }
 }
 
+void deletePhone(){
+	if(head == nullptr){
+		std::cout << "Inventory is empty.\n";
+        return;
+	}
+	
+	int cod;
+	std::cout <<"Enter the code of the phone you want to delete: \n";
+	std::cin >> cod;
+	
+	phone* i = head;
+	phone* j = head;
+	
+    while (i != nullptr && cod != i->code) {
+        j = i; // Save previous node
+        i = i->next; 
+    }
+    
+    if (i == nullptr) {
+        std::cout << "Product not found.\n";
+        return;
+    }
+    
+	if(i->stock != 0){
+		std::cout << "This product still has stock!\n";
+		return;
+	}
+	
+	if(i == head){
+		head = i->next;
+		delete(i);
+	}else{
+		j->next = i->next;
+		delete i;
+	}
+	
+	std::cout << "The product was removed from inventory!\n";
+}
+
 int main() {
 	
 	head = nullptr;
@@ -142,9 +181,10 @@ int main() {
 		std::cout << "           --- Menu inventory ---\n";
 		std::cout << "Select a option:\n";
 		std::cout << "1. Add phone.\n";
-		std::cout << "2. View inventory.\n";
-		std::cout << "3. Buy phone(s).\n";	
-		std::cout << "4. Exit.\n";	
+		std::cout << "2. Delete phone.\n";
+		std::cout << "3. View inventory.\n";
+		std::cout << "4. Buy phone(s).\n";	
+		std::cout << "5. Exit.\n";	
 		
 		std::cin >> opt;
 		
@@ -153,19 +193,22 @@ int main() {
 				addPhone();
 				break;
 			case 2:
-				printInventory(balance);
+				deletePhone();
 				break;
 			case 3:
-				buyPhone();
+				printInventory(balance);
 				break;
 			case 4:
+				buyPhone();
+				break;
+			case 5:
 				std::cout << "Closing app...\n";
 				break;
 			default:
 				std::cout << "Invalid option!\n";
 				break;
 		}
-	}while (opt != 4);
+	}while (opt != 5);
 	
 	return 0;
 }
