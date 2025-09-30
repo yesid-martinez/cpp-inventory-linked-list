@@ -71,7 +71,7 @@ void addPhone(){
     std::cout << "Phone added successfully!\n";
 }
 
-void printInventory(long balance){
+void printInventory(long &balance){
 	phone* i = head;
 	
 	if(i == nullptr){
@@ -95,7 +95,7 @@ void printInventory(long balance){
 	}
 }
 
-void buyPhone() {
+void buyPhone(long &balance) {
     short cod = 0, quant = 0;
     
     phone* i = head;
@@ -106,28 +106,43 @@ void buyPhone() {
         std::cout << "Enter the code of the phone you want to buy: \n";
         std::cin >> cod;
         
+        bool found = false;
+        
         while (i != nullptr) {
             if (i->code == cod) {
+            	found = true;
+            	
                 std::cout << "Enter purchase quantity: \n";
                 std::cin >> quant;
                 
                 if (quant <= 0) {
                     std::cout << "Please enter a quantity of at least one (1).\n";
-                } else {
-                    i->stock += quant; 
-                    std::cout << "- " << quant << " phones added to stock successfully!\n";
-                    std::cout << "- Thank you for your purchase.\n";
-                }
-                break; // phone found, exit the loop
-            }
-            
-            // Move to next node if code does not match
+                	return;
+				}	
+				
+				if(balance < (quant * i->phonePrice)){
+					std::cout << " \n";
+                    std::cout << "Insufficient balance!\n";
+                    std::cout << "Currently you have $" << balance << "\n";
+                    std::cout << " \n";
+                	return;
+				}
+				
+                i->stock += quant; 
+                balance -= (quant * i->phonePrice);
+                std::cout << " \n";
+                std::cout << "- " << quant << " phones added to stock successfully!\n";
+                std::cout << "- Purchase cost: " << (quant * i->phonePrice) << "\n";
+				std::cout << "- Thank you for your purchase.\n";
+            	std::cout << " \n";
+            	return;
+			}
             i = i->next;
         }
         
-        if (i == nullptr) {
-            std::cout << "Phone code not found! Please try again.\n";
-        }
+	    if (!found) {
+	        std::cout << "Phone code not found! Please try again.\n";
+	    }
     }
 }
 
@@ -199,7 +214,7 @@ int main() {
 				printInventory(balance);
 				break;
 			case 4:
-				buyPhone();
+				buyPhone(balance);
 				break;
 			case 5:
 				std::cout << "Closing app...\n";
