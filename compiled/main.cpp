@@ -12,7 +12,8 @@ struct phone{
 	int phonePrice;
 	int sellValue;
 	phone* next;
-} *head;
+	phone* prev;
+} *head, *tail;
 
 bool verifyCode(int cod){
 	phone* i = head;
@@ -66,15 +67,14 @@ void addPhone(){
     
     // FIFO Mode
     if(head == nullptr){
-		newPhone->next = nullptr;
-		head = newPhone;
+		head = tail = newPhone;
+		newPhone->prev = nullptr;
+		newPhone->next = nullptr; 
 	}else{
-		phone* i = head;
-		while(i->next != nullptr){
-			i = i->next;
-		}
-		newPhone->next = i->next;
-		i->next = newPhone;
+	    tail->next = newPhone;
+	    newPhone->prev = tail;
+	    newPhone->next = nullptr;
+	    tail = newPhone;
 	}
     
     std::cout << "Phone added successfully!\n";
@@ -252,6 +252,7 @@ void deletePhone(){
 int main() {
 	
 	head = nullptr;
+	tail = nullptr;
 	
 	short opt = 0;
 	long balance = 10000000;
