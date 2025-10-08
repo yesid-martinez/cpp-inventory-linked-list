@@ -104,6 +104,33 @@ void printInventory(long &balance){
 	}
 }
 
+void printInventoryBackward(long &balance) {
+    phone* i = tail;
+
+    if (i == nullptr) {
+        std::cout << "- No phones available.\n";
+        return;
+    }
+
+    std::cout << "--- Inventory (backward) ---\n";
+    while (i != nullptr) {
+		std::cout << "| ----------- Inventory ----------- |\n";
+		while(i != nullptr){
+			std::cout << " \n";
+			std::cout << " - Phone code: " << i->code << "\n";
+			std::cout << " - Brand: " << i->brand << "\n";
+			std::cout << " - Model: " << i->model << "\n";
+			std::cout << " - Available: " << i->stock << "\n";
+			std::cout << " \n";
+			std::cout << "| -------------------------------- |";
+			std::cout << " \n";
+			i = i->prev;
+		}
+		std::cout << " - Balance: " << balance << "\n";
+    }
+}
+
+
 void buyPhone(long &balance) {
     short cod = 0, quant = 0;
     
@@ -263,9 +290,10 @@ int main() {
 		std::cout << "1. Add phone.\n";
 		std::cout << "2. Delete phone.\n";
 		std::cout << "3. View inventory.\n";
-		std::cout << "4. Buy phone(s).\n";
-		std::cout << "5. Sell phone(s).\n";
-		std::cout << "6. Exit.\n";
+		std::cout << "4. View inventory backward.\n";
+		std::cout << "5. Buy phone(s).\n";
+		std::cout << "6. Sell phone(s).\n";
+		std::cout << "7. Exit.\n";
 		
 		std::cin >> opt;
 		
@@ -280,19 +308,22 @@ int main() {
 				printInventory(balance);
 				break;
 			case 4:
-				buyPhone(balance);
+				printInventoryBackward(balance);
 				break;
 			case 5:
-				sellPhone(balance);
+				buyPhone(balance);
 				break;
 			case 6:
+				sellPhone(balance);
+				break;
+			case 7:
 				std::cout << "Closing app...\n";
 				break;
 			default:
 				std::cout << "Invalid option!\n";
 				break;
 		}
-	}while (opt != 6);
+	}while (opt != 7);
 	
 	return 0;
 }
