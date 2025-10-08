@@ -51,12 +51,7 @@ void addPhone(){
     
     std::cout << "Enter storage: ";
     std::cin >> newPhone->storage;
-    
-	// std::cout << "Enter the stock quantity: ";
-	// std::cin >> newPhone->stock;
 	
-    // We start with 0 units by default.
-    // This way, the inventory can begin empty (no phones in stock).
     newPhone->stock = 0; 
     
     std::cout << "Enter phone price: ";
@@ -65,8 +60,22 @@ void addPhone(){
     std::cout << "Enter selling price: ";
 	std::cin >> newPhone->sellValue;
     
-    newPhone->next = head;
-    head = newPhone;
+    // LIFO Mode
+    // newPhone->next = head;
+    // head = newPhone;
+    
+    // FIFO Mode
+    if(head == nullptr){
+		newPhone->next = nullptr;
+		head = newPhone;
+	}else{
+		phone* i = head;
+		while(i->next != nullptr){
+			i = i->next;
+		}
+		newPhone->next = i->next;
+		i->next = newPhone;
+	}
     
     std::cout << "Phone added successfully!\n";
 }
