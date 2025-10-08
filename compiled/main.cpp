@@ -61,10 +61,6 @@ void addPhone(){
     std::cout << "Enter selling price: ";
 	std::cin >> newPhone->sellValue;
     
-    // LIFO Mode
-    // newPhone->next = head;
-    // head = newPhone;
-    
     // FIFO Mode
     if(head == nullptr){
 		head = tail = newPhone;
@@ -129,7 +125,6 @@ void printInventoryBackward(long &balance) {
 		std::cout << " - Balance: " << balance << "\n";
     }
 }
-
 
 void buyPhone(long &balance) {
     short cod = 0, quant = 0;
@@ -276,6 +271,58 @@ void deletePhone(){
 	std::cout << "The product was removed from inventory!\n";
 }
 
+void makeCircular(bool &isCircular) {
+    if (!head) {
+        std::cout << "- Cannot make circular: list is empty.\n";
+        return;
+    }
+
+    if (head == tail) {
+        std::cout << "- Cannot make circular: list has only one node.\n";
+        return;
+    }
+
+    tail->next = head;
+    head->prev = tail;
+    isCircular = true;
+    std::cout << "- List successfully made circular.\n";
+}
+
+void printInventoryCircular(bool &isCircular) {
+    if (!head) {
+        std::cout << "- Inventory is empty.\n";
+        return;
+    }
+    
+	if (!isCircular) {
+	    std::cout << "- List is not circular. Please make it circular first.\n";
+	    return;
+	}
+    
+	int loops;
+	std::cout << "Enter loops quantity: \n";
+	std::cin >> loops;
+	
+	if(loops <= 0){
+		std::cout << "- Invalid number of loops.\n";
+		return;
+	}
+
+    phone* i = head;
+    int count = 0;
+
+    for (int n = 0; n < loops; n++) {   // cada vuelta completa
+        do {
+            std::cout << "- Phone code: " << i->code << "\n";
+            std::cout << "- Brand: " << i->brand << "\n";
+            std::cout << "- Model: " << i->model << "\n";
+            std::cout << "- Stock: " << i->stock << "\n\n";
+
+            i = i->next;
+        } while (i != head); // hasta completar una vuelta
+    }
+}
+
 int main() {
 	
 	head = nullptr;
@@ -283,6 +330,8 @@ int main() {
 	
 	short opt = 0;
 	long balance = 10000000;
+	
+	bool isCircular = false;
 	
 	do{
 		std::cout << "           --- Menu inventory ---\n";
@@ -293,7 +342,9 @@ int main() {
 		std::cout << "4. View inventory backward.\n";
 		std::cout << "5. Buy phone(s).\n";
 		std::cout << "6. Sell phone(s).\n";
-		std::cout << "7. Exit.\n";
+		std::cout << "7. Make circular.\n";
+		std::cout << "8. Print circular inventory.\n";
+		std::cout << "9. Exit.\n";
 		
 		std::cin >> opt;
 		
@@ -317,13 +368,19 @@ int main() {
 				sellPhone(balance);
 				break;
 			case 7:
+				makeCircular(isCircular);
+				break;
+			case 8:
+				printInventoryCircular(isCircular);
+				break;
+			case 9:
 				std::cout << "Closing app...\n";
 				break;
 			default:
 				std::cout << "Invalid option!\n";
 				break;
 		}
-	}while (opt != 7);
+	}while (opt != 9);
 	
 	return 0;
 }
